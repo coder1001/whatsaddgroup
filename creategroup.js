@@ -45,38 +45,65 @@ function delay(timeout) {
  
   await page.waitForSelector('._3j8Pd');
 
-  //************************** */
-  // GROUP CREATION
-  //************************** */
+  let groupNumber = 0;
+  while (groupNumber < 3){
+
+      //************************** */
+    // GROUP CREATION
+    //************************** */
+    
+    // 1. click three dots
+    await page.click(id.button.threedots);
+
+    // 2. click 'Create new group'
+    await page.click(id.button.newGroup);
+
+    // 3. Search for Person
+    await page.type(id.input.searchPerson, 'Raphael Langer');
+
+    // 4. wait for listitem to be there
+    await page.waitForSelector(id.items.firstListItem);
+
+    // 5. click on listitem to add person to invitelist
+    await page.click(id.items.firstListItem);
+
+    //(optional) Repeat step 2 and 5 to invite more people
+
+    // 6. Wait for next button to be visible
+    await page.waitForSelector(id.button.startCreatingGroup);
+
+    // 7. Click on "next"
+    await page.click(id.button.startCreatingGroup);
+
+    // 8. type in groupname
+    await page.type('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > div:nth-child(2) > div > div._3hnO5 > div > div._3u328.copyable-text.selectable-text',info.groupName);
+    
+    const input = await page.$('input[type="file"]');
+    await input.uploadFile('./img/icon.jpg');
+
+
+    await page.waitForSelector(id.button.confirmImg);
+
+    await page.click(id.button.confirmImg);
+    
+    //9. click btn to create group :)
+    await page.waitForSelector(id.button.finishCreatingGroup);
+    await delay(1000);
+    await page.click(id.button.finishCreatingGroup);
+    
+    groupNumber ++;
+
+    await page.waitForSelector(id.input.chat);
+    await delay(1000);
+    await page.type(id.input.chat,`This group was automatically generated. Group No. ${groupNumber}`);
+     await page.click('button[class=_3M-N-]');
+
+     // set 20sec delay due to notifications
+     await delay(10000);
+
   
-  // 1. click three dots
-  await page.click(id.button.threedots);
 
-  // 2. click 'Create new group'
-  await page.click(id.button.newGroup);
-
-  // 3. Search for Person
-  await page.type(id.input.searchPerson, 'Raphael Langer');
-
-  // 4. wait for listitem to be there
-  await page.waitForSelector(id.items.firstListItem);
-
-  // 5. click on listitem to add person to invitelist
-  await page.click(id.items.firstListItem);
-
-  //(optional) Repeat step 2 and 5 to invite more people
-
-  // 6. Wait for next button to be visible
-  await page.waitForSelector(id.button.startCreatingGroup);
-
-  // 7. Click on "next"
-  await page.click(id.button.startCreatingGroup);
-
-  // 8. type in groupname
-  await page.type('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > div:nth-child(2) > div > div._3hnO5 > div > div._3u328.copyable-text.selectable-text',info.groupName);
-  
-  // 9. click btn to create group :)
-  //await page.click('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > span > div > div');
+  }
   
 
   //************************** */
