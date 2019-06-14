@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
- 
+const info = require('./config');
 
 function delay(timeout) {
     return new Promise((resolve) => {
@@ -8,31 +8,40 @@ function delay(timeout) {
   }
 
 (async () => {
-  //const browser = await puppeteer.launch();
-
-  const browser = await puppeteer.launch({
+  
+  /*const browser = await puppeteer.launch({
     headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized']
- })
+ })*/
 
+ const wsChromeEndpointurl = info.webSocketDebuggerUrl;
+
+ // Use puppeteer.connect instead of launch to remote control an existing browser instance instead of creating a new chromium instance
+ // This is neccessary to avoid the QR authentification every time
+ const browser = await puppeteer.connect({
+  browserWSEndpoint: wsChromeEndpointurl,
+  brwoserURL:"https://web.whatsapp.com"
+})
+
+  // create a new page
   const page = await browser.newPage();
-  //await page.setViewport({ width: 1366, height: 768});
+
+  // (optional) set viewport
+  /*
+  await page.setViewport({ width: 1366, height: 768});
+  */
+
   await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36');
+  
+  // go to website
   await page.goto('https://web.whatsapp.com');
 
-  await page.evaluate(() => {
-    localStorage.setItem('whatsapp-mutex', 'x227628220:init_1560456518826');
-    localStorage.setItem('WABrowserId', 'KnkvXYTdGPEZhJHpiC162w==');
-  });
+  // (optional) create screenshot
 
-  let cookieObject ={
-    name:"JSESSIONID",
-    value:"9C8E6659B14C2963EDED73C16BB0868A",
-    Expires:"Tue, 19 Jan 2038 03:14:07 GMT"
-    }
-
-  //await page.setCookie(cookieObject);
-  //await page.screenshot({path: 'example.png'});
+  /*
+  await page.screenshot({path: 'example.png'});
+  */
+ 
   await page.waitForSelector('._3j8Pd');
 
   // group creation
@@ -50,7 +59,7 @@ function delay(timeout) {
   */
   // click to go into settings
 
-  await page.type('#side > div._2HS9r > div > label > input','Automated generated group');
+  await page.type('#side > div._2HS9r > div > label > input',info.groupName);
   await delay(500);
   await page.click('._3La1s div div div div:nth-child(2)');
   await page.click('#main > header > div._3V5x5');
@@ -75,12 +84,12 @@ function delay(timeout) {
   //await page.type(String.fromCharCode(13)); // doesnt work?!!
   console.log("Trying press enter");
   //await page.press('Enter'); // doesnt work=!=""
-  await page.click('button[class=_3M-N-]');
-  await delay(40000);
+  //await page.click('button[class=_3M-N-]');
+  
 
 
   
 
  
-  await browser.close();
+  //await browser.close();
 })();
