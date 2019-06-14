@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const info = require('./config');
+const id = require('./identifier');
 
 function delay(timeout) {
     return new Promise((resolve) => {
@@ -49,42 +50,42 @@ function delay(timeout) {
   //************************** */
   
   // 1. click three dots
-  await page.click('._3j8Pd:nth-child(3)');
+  await page.click(id.button.threedots);
 
   // 2. click 'Create new group'
-  await page.click('._3j8Pd span div ul li:nth-child(1)');
+  await page.click(id.button.newGroup);
 
   // 3. Search for Person
-  await page.type('._44uDJ', 'Raphael Langer');
+  await page.type(id.input.searchPerson, 'Raphael Langer');
 
   // 4. wait for listitem to be there
-  await page.waitForSelector('.rK2ei div:nth-child(2) div:nth-child(1)');
+  await page.waitForSelector(id.items.firstListItem);
 
   // 5. click on listitem to add person to invitelist
-  await page.click('.rK2ei div:nth-child(2) div:nth-child(1)');
+  await page.click(id.items.firstListItem);
 
   //(optional) Repeat step 2 and 5 to invite more people
 
   // 6. Wait for next button to be visible
-  await page.waitForSelector('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > span > div[role=button]');
+  await page.waitForSelector(id.button.startCreatingGroup);
 
   // 7. Click on "next"
-  await page.click('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > span > div[role=button]');
+  await page.click(id.button.startCreatingGroup);
 
   // 8. type in groupname
   await page.type('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > div:nth-child(2) > div > div._3hnO5 > div > div._3u328.copyable-text.selectable-text',info.groupName);
   
   // 9. click btn to create group :)
-  await page.click('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > span > div > div');
+  //await page.click('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > span > div > div');
   
 
   //************************** */
   // GROUP SEARCH AND EDIT
   //************************** */
-  
+
   // click to go into settings
 
-  await page.type('#side > div._2HS9r > div > label > input',info.groupName);
+  /*await page.type('#side > div._2HS9r > div > label > input',info.groupName);
   await delay(500);
   await page.click('._3La1s div div div div:nth-child(2)');
   await page.click('#main > header > div._3V5x5');
@@ -109,7 +110,7 @@ function delay(timeout) {
   //await page.type(String.fromCharCode(13)); // doesnt work?!!
   console.log("Trying press enter");
   //await page.press('Enter'); // doesnt work=!=""
-  //await page.click('button[class=_3M-N-]');
+  //await page.click('button[class=_3M-N-]');*/
   
 
 
