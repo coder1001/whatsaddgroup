@@ -1,5 +1,5 @@
 module.exports = {
-    webSocketDebuggerUrl : 'ws://localhost:9222/devtools/browser/51b415ba-625c-4526-a173-8c7799a7bc7b',
+    webSocketDebuggerUrl : 'ws://localhost:9222/devtools/browser/04ec9ad5-1bd3-4d8e-9f35-ed30591bd531',
     groupName : 'Automated Generated Group'
 }
 
