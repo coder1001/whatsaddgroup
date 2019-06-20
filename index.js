@@ -44,39 +44,40 @@ app.get('/create/group', function (req, res) {
           args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized']
        })*/
       
-       const wsChromeEndpointurl = info.webSocketDebuggerUrl;
+       try {
+        const wsChromeEndpointurl = info.webSocketDebuggerUrl;
       
-       // Use puppeteer.connect instead of launch to remote control an existing browser instance instead of creating a new chromium instance
-       // This is neccessary to avoid the QR authentification every time
-       const browser = await puppeteer.connect({
-        browserWSEndpoint: wsChromeEndpointurl,
-        brwoserURL: 'https://web.whatsapp.com'
-      })
-      
-        // create a new page
-        const page = await browser.newPage();
-      
-        // (optional) set viewport
-        /*
-        await page.setViewport({ width: 1366, height: 768});
-        */
-      
-        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36');
-        
-        // go to website
-        await page.goto('https://web.whatsapp.com');
-      
-        // (optional) create screenshot
-      
-        /*
-        await page.screenshot({path: 'example.png'});
-        */
+        // Use puppeteer.connect instead of launch to remote control an existing browser instance instead of creating a new chromium instance
+        // This is neccessary to avoid the QR authentification every time
+        const browser = await puppeteer.connect({
+         browserWSEndpoint: wsChromeEndpointurl,
+         brwoserURL: 'https://web.whatsapp.com'
+       })
        
-        await page.waitForSelector('._3j8Pd');
-      
-        //let groupNumber = 0;
-        //while (groupNumber < 3){
-      
+         // create a new page
+         const page = await browser.newPage();
+       
+         // (optional) set viewport
+         /*
+         await page.setViewport({ width: 1366, height: 768});
+         */
+       
+         await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36');
+         
+         // go to website
+         await page.goto('https://web.whatsapp.com');
+       
+         // (optional) create screenshot
+       
+         /*
+         await page.screenshot({path: 'example.png'});
+         */
+        
+         await page.waitForSelector('._3j8Pd');
+       
+         //let groupNumber = 0;
+         //while (groupNumber < 3){
+       
             //************************** */
           // GROUP CREATION
           //************************** */
@@ -125,12 +126,12 @@ app.get('/create/group', function (req, res) {
           await page.waitForSelector(id.input.chat);
           await delay(1000);
           await page.type(id.input.chat,`This group was automatically generated.`);
-           await page.click(id.button.msgSubmit);
+          await page.click(id.button.msgSubmit);
       
-           // set 20sec delay due to notifications
-           await delay(1000);
+          // set 20sec delay due to notifications
+          await delay(1000);
 
-           await page.type(id.input.searchField,groupName);
+          await page.type(id.input.searchField,groupName);
             await delay(500);
             await page.click(id.items.listItem);
             await page.click(id.button.groupSettings);
@@ -156,13 +157,17 @@ app.get('/create/group', function (req, res) {
             console.log("Trying press enter");
             //await page.press('Enter'); // doesnt work=!=""
             await page.click(id.button.msgSubmit);
-      
-        
-      
-        //}
-        res.json({
-            groupName: Href
+            //}
+            res.json({
+              groupName: Href
             });
+       } catch (e) {
+         console.error(e);
+        res.json({
+          groupName: null,
+          error: e.message || 'Error',
+        });
+       }
       
       })();
 
