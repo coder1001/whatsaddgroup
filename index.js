@@ -120,47 +120,42 @@ app.get('/create/group', function (req, res) {
           await page.waitForSelector(id.button.finishCreatingGroup);
           await delay(1000);
           await page.click(id.button.finishCreatingGroup);
-          
-          //groupNumber ++;
-      
-          await page.waitForSelector(id.input.chat);
-          await delay(1000);
-          await page.type(id.input.chat,`This group was automatically generated.`);
-          await page.click(id.button.msgSubmit);
-      
+             
           // set 20sec delay due to notifications
           await delay(1000);
 
-          await page.type(id.input.searchField,groupName);
-            await delay(500);
-            await page.click(id.items.listItem);
-            await page.click(id.button.groupSettings);
+          await page.type(id.input.searchField, groupName);
+          await delay(500);
+          await page.click(id.items.listItem);
+          await page.click(id.button.groupSettings);
 
-            await delay(500);
-            // click to go to invite group
-            await page.click(id.button.inviteLinkMenu);
-            
-            await delay(500);
-            // get href
-            const Href = await page.$eval('a#group-invite-link-anchor', span => span.getAttribute('href'));
-            console.log("Link ist: ", Href);
+          await delay(500);
+          // click to go to invite group
+          await page.click(id.button.inviteLinkMenu);
+          
+          await delay(500);
+          // get href
+          const Href = await page.$eval('a#group-invite-link-anchor', span => span.getAttribute('href'));
+          console.log("Link ist: ", Href);
 
-            await delay(500);
-            await page.click(id.button.settingsBack);
+          await delay(500);
+          await page.click(id.button.settingsBack);
 
-            await delay(500);
-            await page.click(id.button.settingsBack);
-            // type link to chat
-            await page.type(id.input.chat,"Audomated pushed text: "+ Href);
-            await delay(1000);
-            //await page.type(String.fromCharCode(13)); // doesnt work?!!
-            console.log("Trying press enter");
-            //await page.press('Enter'); // doesnt work=!=""
-            await page.click(id.button.msgSubmit);
-            //}
-            res.json({
-              groupName: Href
-            });
+          // Leave group
+          await delay(500);
+          await page.click(id.button.leaveGroup);
+          await delay(500);
+          await page.click(id.button.popupConfirm);
+          await delay(500);
+
+          // Delete Group
+          await page.click(id.button.deleteGroup);
+          await delay(500);
+          await page.click(id.button.popupConfirm);
+
+          res.json({
+            groupName: Href
+          });
        } catch (e) {
          console.error(e);
         res.json({

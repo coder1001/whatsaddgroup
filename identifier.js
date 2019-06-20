@@ -10,8 +10,10 @@ module.exports = {
         msgSubmit:'button[class=_3M-N-]',
         settingsBack:'.qfKkX',
         inviteLinkMenu:'#app > div > div > div._37f_5 > div._3HZor._1C9rS > span > div > span > div > div > div._3xdMj > div:nth-child(5) > div:nth-child(3) > div._2WP9Q > div > div',
-        groupSettings:'#main > header > div._3V5x5'
-         
+        groupSettings:'#main > header > div._3V5x5',
+        leaveGroup: 'div._26JG5',
+        popupConfirm: 'div._2eK7W._3PQ7V',
+        deleteGroup: 'div._26JG5.pgYve',
     },
     input:{
         searchPerson:'._44uDJ',
