@@ -31,8 +31,8 @@ app.get('/create/group', function (req, res) {
     console.log('Group Creation');
 
 
-    // group name
-    let groupName = req.query.groupName || info.defaultGroupName;
+    // group name (25 char limit)
+    let groupName = (req.query.groupName || info.defaultGroupName).substring(0, 25);
     // add user
     let addUser = req.query.addUser || info.defaultAddUser;
 
@@ -116,9 +116,13 @@ app.get('/create/group', function (req, res) {
       
           // Zoom out
           await page.click(id.button.zoomOut);
+          await delay(500);
           await page.click(id.button.zoomOut);
+          await delay(500);
           await page.click(id.button.zoomOut);
+          await delay(500);
           await page.click(id.button.zoomOut);
+          await delay(500);
 
           await page.click(id.button.confirmImg);
           
@@ -128,18 +132,18 @@ app.get('/create/group', function (req, res) {
           await page.click(id.button.finishCreatingGroup);
              
           // set 20sec delay due to notifications
-          await delay(1000);
+          await delay(3000);
 
           await page.type(id.input.searchField, groupName);
-          await delay(500);
+          await delay(3000);
           await page.click(id.items.listItem);
           await page.click(id.button.groupSettings);
 
-          await delay(500);
+          await delay(1500);
           // click to go to invite group
           await page.click(id.button.inviteLinkMenu);
           
-          await delay(500);
+          await delay(1500);
           // get href
           const Href = await page.$eval('a#group-invite-link-anchor', span => span.getAttribute('href'));
           console.log("Link ist: ", Href);
@@ -155,9 +159,10 @@ app.get('/create/group', function (req, res) {
           await delay(500);
 
           // Delete Group
-          // await page.click(id.button.deleteGroup);
-          // await delay(500);
-          // await page.click(id.button.popupConfirm);
+          await page.click(id.button.deleteGroup);
+          await delay(500);
+          await page.click(id.button.popupConfirm);
+          await delay(500);
 
           res.json({
             groupName: Href
