@@ -59,7 +59,7 @@ function delay(timeout) {
     await page.click(id.button.newGroup);
 
     // 3. Search for Person
-    await page.type(id.input.searchPerson, 'Raphael Langer');
+    await page.type(id.input.searchPerson, info.defaultAddUser);
 
     // 4. wait for listitem to be there
     await page.waitForSelector(id.items.firstListItem);

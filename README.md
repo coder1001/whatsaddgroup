@@ -18,9 +18,9 @@ Go to web.whatsapp.com and handle authentification with your smartphone
 
 # Step 3: Grab the connection url
 
-Go to *http://localhost:9222/json/version* in your recently generated browser and copy webSocketDebuggerUrl
+Add .env file cp .env.dist .env
 
-
+Go to *http://localhost:9222/json/version* in your recently generated browser and put webSocketDebuggerUrl to .env file
 
 # Step 4: Start Script
 
@@ -37,4 +37,4 @@ node index.js
 
 Than call
 
-localhost:3000/create/group?groupName=[GroupNameHere]
+localhost:3000/create/group?groupName=[GroupNameHere]&addUser=[addUserHere]

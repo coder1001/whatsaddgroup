@@ -1,15 +1,17 @@
+require('dotenv').config();
 const express = require('express')
-const app = express()
-
 const puppeteer = require('puppeteer');
+
 const info = require('./config');
 const id = require('./identifier');
 
+const app = express();
+
 function delay(timeout) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  }
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+}
  
 app.get('/', function (req, res) {
     console.log('Main');
@@ -29,13 +31,10 @@ app.get('/create/group', function (req, res) {
     console.log('Group Creation');
 
 
-    // set default groupname
-    let groupName = info.groupName;
-
-    // if queryparam groupName is threre -> use it
-    if (req.query.groupName){
-        groupName = req.query.groupName;
-    }
+    // group name
+    let groupName = req.query.groupName || info.defaultGroupName;
+    // add user
+    let addUser = req.query.addUser || info.defaultAddUser;
 
     // puppeteer automation begins ...
     (async () => {
@@ -51,7 +50,7 @@ app.get('/create/group', function (req, res) {
        // This is neccessary to avoid the QR authentification every time
        const browser = await puppeteer.connect({
         browserWSEndpoint: wsChromeEndpointurl,
-        brwoserURL:"https://web.whatsapp.com"
+        brwoserURL: 'https://web.whatsapp.com'
       })
       
         // create a new page
@@ -89,7 +88,7 @@ app.get('/create/group', function (req, res) {
           await page.click(id.button.newGroup);
       
           // 3. Search for Person
-          await page.type(id.input.searchPerson, 'Raphael Langer');
+          await page.type(id.input.searchPerson, addUser);
       
           // 4. wait for listitem to be there
           await page.waitForSelector(id.items.firstListItem);
