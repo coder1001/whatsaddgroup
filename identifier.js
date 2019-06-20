@@ -14,6 +14,7 @@ module.exports = {
         leaveGroup: 'div._26JG5',
         popupConfirm: 'div._2eK7W._3PQ7V',
         deleteGroup: 'div._26JG5.pgYve',
+        zoomOut: 'div._1DKwn div:nth-child(2)',
     },
     input:{
         searchPerson:'._44uDJ',

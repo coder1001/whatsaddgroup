@@ -114,6 +114,12 @@ app.get('/create/group', function (req, res) {
       
           await page.waitForSelector(id.button.confirmImg);
       
+          // Zoom out
+          await page.click(id.button.zoomOut);
+          await page.click(id.button.zoomOut);
+          await page.click(id.button.zoomOut);
+          await page.click(id.button.zoomOut);
+
           await page.click(id.button.confirmImg);
           
           //9. click btn to create group :)
@@ -149,9 +155,9 @@ app.get('/create/group', function (req, res) {
           await delay(500);
 
           // Delete Group
-          await page.click(id.button.deleteGroup);
-          await delay(500);
-          await page.click(id.button.popupConfirm);
+          // await page.click(id.button.deleteGroup);
+          // await delay(500);
+          // await page.click(id.button.popupConfirm);
 
           res.json({
             groupName: Href
