@@ -51,28 +51,28 @@ app.get('/create/group', function (req, res) {
         // This is neccessary to avoid the QR authentification every time
         const browser = await puppeteer.connect({
          browserWSEndpoint: wsChromeEndpointurl,
-         brwoserURL: 'https://web.whatsapp.com'
+         brwoserURL: info.whatsAppWeb,
        })
-       
+
+       // Check if whatsapp already open
+       const pages = await browser.pages();
+       let page;
+       pages.forEach(async p => {
+        console.log(p.url());
+         if (p.url() === info.whatsAppWeb) {
+            page = p;
+         }
+       });
+      
+       const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36';
+       if (!page) {
          // create a new page
-         const page = await browser.newPage();
-       
-         // (optional) set viewport
-         /*
-         await page.setViewport({ width: 1366, height: 768});
-         */
-       
-         await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36');
-         
+         page = await browser.newPage();
+         page.setUserAgent(userAgent);
          // go to website
-         await page.goto('https://web.whatsapp.com');
-       
-         // (optional) create screenshot
-       
-         /*
-         await page.screenshot({path: 'example.png'});
-         */
-        
+          await page.goto(info.whatsAppWeb);
+       }
+      
          await page.waitForSelector('._3j8Pd');
        
          //let groupNumber = 0;
