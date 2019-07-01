@@ -102,11 +102,14 @@ app.get('/create/group', function (req, res) {
           // 6. Wait for next button to be visible
           await page.waitForSelector(id.button.startCreatingGroup);
       
+          await delay(300);
           // 7. Click on "next"
           await page.click(id.button.startCreatingGroup);
-      
+          await delay(300);
+
           // 8. type in groupname
-          await page.type('#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > div:nth-child(2) > div > div._3hnO5 > div > div._3u328.copyable-text.selectable-text',groupName);
+          const searchField = '#app > div > div > div._37f_5 > div._3HZor._3kF8H > span > div > span > div > div > div:nth-child(2) > div > div._3hnO5 > div > div._3u328.copyable-text.selectable-text';
+          await page.type(searchField, groupName);
           
           const input = await page.$('input[type="file"]');
           await input.uploadFile('./img/icon.jpg');
@@ -134,9 +137,8 @@ app.get('/create/group', function (req, res) {
           // set 20sec delay due to notifications
           await delay(3000);
 
-          await page.type(id.input.searchField, groupName);
+          // Clear search field
           await delay(3000);
-          await page.click(id.items.listItem);
           await page.click(id.button.groupSettings);
 
           await delay(1500);
@@ -156,13 +158,16 @@ app.get('/create/group', function (req, res) {
           await page.click(id.button.leaveGroup);
           await delay(500);
           await page.click(id.button.popupConfirm);
-          await delay(500);
+          await delay(1500);
 
           // Delete Group
           await page.click(id.button.deleteGroup);
           await delay(500);
           await page.click(id.button.popupConfirm);
           await delay(500);
+
+          // Wait for notifications
+          await delay(15000);
 
           res.json({
             groupName: Href
